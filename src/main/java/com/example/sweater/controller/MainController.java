@@ -21,6 +21,7 @@ public class MainController {
         return "greeting";
     }
 
+//    Главная страница со всеми сообщениями
     @GetMapping("/main")
     public String main(Map<String, Object> model) {
         Iterable<Message> messages = messageRepo.findAll();

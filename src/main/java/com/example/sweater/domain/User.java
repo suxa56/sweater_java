@@ -15,8 +15,14 @@ public class User {
     private String password;
     private boolean active;
 
-    @ElementCollection(targetClass = Role.class, fetch = FetchType.LAZY)
+//    @ElementCollection позволяет избавиться от головной боли по формированию дополнительной таблицы для ENUM
+//    fetch - метод подгрузки ролей;
+//      lazy - медленная и подгружается по мере необходимости
+//      eager - жадная, всё сразу подгружает
+    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+//    @CollectionTable создает отдельную таблицу, для которой мы не прописывали mapping
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
+//    @Enumerated Показывает, в каком виде хранить данные
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 

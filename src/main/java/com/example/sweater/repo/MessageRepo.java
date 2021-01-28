@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface MessageRepo extends JpaRepository<Message, Long> {
 
+//    Поиск сообщений по тегам
     List<Message> findByTag(String tag);
 }

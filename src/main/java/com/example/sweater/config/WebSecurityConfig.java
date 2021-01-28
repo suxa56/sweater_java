@@ -20,13 +20,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
+//                Позволяет входить по данным адресам всем посетителям
                     .antMatchers("/", "/registration").permitAll()
+//                Для любых други запросов нужна авторизация
                     .anyRequest().authenticated()
                 .and()
+//                Форма логина находится по такому адресу и доступен для всех
                     .formLogin()
                     .loginPage("/login")
                     .permitAll()
                 .and()
+//                Логаут доступен для всех
                     .logout()
                     .permitAll();
     }
