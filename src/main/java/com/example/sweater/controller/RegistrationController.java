@@ -16,6 +16,13 @@ public class RegistrationController {
     @Autowired
     private UserRepo userRepo;
 
+//      Современный вариант без @Autowired
+//    private final UserRepo userRepo;
+//
+//    public UserService(UserRepo userRepo) {
+//        this.userRepo = userRepo;
+//    }
+
     @GetMapping("/registration")
     public String registration(){
         return "registration";
