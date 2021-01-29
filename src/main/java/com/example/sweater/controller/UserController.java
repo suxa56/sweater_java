@@ -41,6 +41,7 @@ public class UserController {
         return "userEdit";
     }
 
+//    Редактирование пользователя, его имя и роль
     @PostMapping
     public String userSave(
             @RequestParam String username,
