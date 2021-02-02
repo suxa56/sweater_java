@@ -30,7 +30,7 @@
 
                     <#else >
 
-                        <a href="/login" class="btn btn-success ms-2 col-1" role="button" aria-current="page" aria-pressed="true">Sign in</a>
+                        <a href="/login" class="btn btn-primary ms-2 col-1" role="button" aria-current="page" aria-pressed="true">Sign in</a>
 
                 </#if>
     </div>

@@ -31,7 +31,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
 //                Позволяет входить по данным адресам всем посетителям
 //                UPDATE прогружает стили для всех
-                    .antMatchers("/", "/registration", "/static/**").permitAll()
+                    .antMatchers("/", "/registration", "/static/**", "/activate/*").permitAll()
 //                Для любых други запросов нужна авторизация
                     .anyRequest().authenticated()
                 .and()

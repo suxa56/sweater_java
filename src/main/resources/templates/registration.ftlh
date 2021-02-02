@@ -5,6 +5,6 @@
 <body>
 Add new user
 ${message!""}
-<@l.login "/registration" "up"/>
+<@l.login "/registration" true/>
 </body>
 </@c.page>
