@@ -19,6 +19,10 @@ public class User implements UserDetails {
     private String password;
     private boolean active;
 
+    public boolean isAdmin() {
+        return roles.contains(Role.ADMIN);
+    }
+
 //    @ElementCollection позволяет избавиться от головной боли по формированию дополнительной таблицы для ENUM
 //    fetch - метод подгрузки ролей;
 //      lazy - медленная и подгружается по мере необходимости

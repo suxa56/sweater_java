@@ -3,6 +3,6 @@
 
 <@c.page>
 Login page
-<@l.login "/login" />
-    <a href="/registration">Sign up</a>
+<@l.login "/login" "in" />
+    <a href="/registration" ><button class="btn btn-primary mt-3">Sign up</button></a>
 </@c.page>
