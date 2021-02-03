@@ -8,6 +8,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import java.util.Properties;
 
+//Конфиг, чтобы JavaMailSender заработал
 @Configuration
 public class MailConfig {
 

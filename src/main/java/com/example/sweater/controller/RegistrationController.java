@@ -45,6 +45,8 @@ public class RegistrationController {
     public String activate(Model model, @PathVariable String code) {
         boolean isActivated = userService.activateUser(code);
 
+//        Проверяет код активации пользователя, если есть код, то выводит соответствующее сообщение
+//        Если же нету кода (не пришел или уже был активирован), то выводит соответствующее сообщение
         if (isActivated) {
             model.addAttribute("message", "User successfully activated");
         } else {

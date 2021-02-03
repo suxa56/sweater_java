@@ -46,10 +46,12 @@ public class UserService implements UserDetailsService {
 //        сохраняется через репозиторий и перенапрявляется на страницу входа
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.USER));
+//        Добавляет поле с рандомным кодом активации
+//        При совпадении почта будет подтверждена
         user.setActivationCode(UUID.randomUUID().toString());
         userRepo.save(user);
 
-
+//        Если поле почты не пустой, то отправляет пользователю почту
         if (!StringUtils.isEmpty(user.getEmail())) {
             String message = String.format(
                     "Hello, %s! \n" +
@@ -58,20 +60,24 @@ public class UserService implements UserDetailsService {
                     user.getActivationCode()
             );
 
+//            отправляет письмо на почту(user,getEmail()), с темой "Activation", и текстом message
             mailSender.send(user.getEmail(), "Activation", message);
         }
         return true;
     }
 
     public boolean activateUser(String code) {
+//        Ищет пользователя по коду активации
         User user = userRepo.findByActivationCode(code);
 
+//        Если нету такого, то возвращает null
         if (user == null) {
             return false;
         }
-
+//        Если же есть, то анулирует код, чтобы не мог повторно вктивировать
         user.setActivationCode(null);
 
+//        Сохраняет в базу данных и возвращает true
         userRepo.save(user);
 
         return true;
