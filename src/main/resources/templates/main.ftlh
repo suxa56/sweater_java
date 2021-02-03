@@ -12,7 +12,7 @@
         </div>
     </form>
 
-    <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
+    <a class="btn btn-primary mb-2" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
        aria-controls="collapseExample">
         Add new message
     </a>
@@ -55,7 +55,10 @@
             </div>
             </div>
         <#else>
+            <div class="mt-3 me-2">
             No messages
+
+            </div>
         </#list>
     </div>
 </@c.page>

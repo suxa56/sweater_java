@@ -71,6 +71,13 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
+
+<!--migration-->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>7.1.1</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -87,6 +94,13 @@
                     <source>13</source>
                     <target>13</target>
                 </configuration>
+            </plugin>
+
+<!--migration plugin-->
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>7.5.1</version>
             </plugin>
         </plugins>
     </build>
