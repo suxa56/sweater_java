@@ -16,14 +16,25 @@
        aria-controls="collapseExample">
         Add new message
     </a>
-    <div class="collaspse my-3" id="collapseExample">
+    <div class="collaspse my-3 <#if message??>show</#if>" id="collapseExample">
         <form method="post" enctype="multipart/form-data" class="row g-3">
             <div class="col-auto">
-                <input class="form-control" type="text" name="text" placeholder="Message">
-
+                <input class="form-control ${(textError??)?string('is-invalid', '')}"
+                       value="<#if message??>${message.text}</#if>" type="text" name="text" placeholder="Message">
+                <#if textError??>
+                    <div class="invalid-feedback">
+                        ${textError}
+                    </div>
+                </#if>
             </div>
             <div class="col-auto">
-                <input class="form-control" type="text" name="tag" placeholder="Tag">
+                <input class="form-control  ${(tagError??)?string('is-invalid', '')}"
+                       value="<#if message??>${message.tag}</#if>"type="text" name="tag" placeholder="Tag">
+                <#if tagError??>
+                    <div class="invalid-feedback">
+                        ${tagError}
+                    </div>
+                </#if>
 
             </div>
             <div class="col-auto">

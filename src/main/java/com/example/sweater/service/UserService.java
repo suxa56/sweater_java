@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -28,9 +29,24 @@ public class UserService implements UserDetailsService {
 //        this.userRepo = userRepo;
 //    }
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+//      Современный вариант без @Autowired
+//    private final PasswordEncoder passwordEncoder;
+//
+//    public PasswordEncoder(PasswordEncoder passwordEncoder) {
+//        this.passwordEncoder = passwordEncoder;
+//    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepo.findByUsername(username);
+        User user = userRepo.findByUsername(username);
+
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found");
+        }
+
+        return user;
     }
 
     public boolean addUser(User user) {
@@ -49,6 +65,7 @@ public class UserService implements UserDetailsService {
 //        Добавляет поле с рандомным кодом активации
 //        При совпадении почта будет подтверждена
         user.setActivationCode(UUID.randomUUID().toString());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepo.save(user);
 //        Отправляет письмо для подтверждения
         sendMessage(user);
@@ -120,7 +137,7 @@ public class UserService implements UserDetailsService {
 
 //        Если пароль не пуст, то обновляем его
         if (!StringUtils.isEmpty(password)) {
-            user.setPassword(password);
+            user.setPassword(passwordEncoder.encode(password));
         }
 
 //        Сохраняем пользователя

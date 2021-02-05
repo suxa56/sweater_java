@@ -2,17 +2,46 @@
     <form action="${path}" method="post" class="mt-3">
         <div class="mb-3 col-4">
             <label for="loginName" class="form-label"> User name </label>
-            <input class="form-control" id="loginName" type="text" name="username" placeholder="Username"/>
+            <input class="form-control ${(usernameError??)?string('is-invalid', '')}"
+                   id="loginName" type="text" name="username" placeholder="Username"
+            value="<#if user??>${user.username}</#if>"/>
+            <#if usernameError??>
+                <div class="invalid-feedback">
+                    ${usernameError}
+                </div>
+            </#if>
         </div>
         <div class="mb-3 col-4">
             <label for="loginPass" class="form-label"> Password </label>
-            <input class="form-control" id="loginPass" type="password" name="password" placeholder="Password"/>
+            <input class="form-control ${(passwordError??)?string('is-invalid', '')}" id="loginPass" type="password" name="password" placeholder="Password"/>
+            <#if passwordError??>
+                <div class="invalid-feedback">
+                    ${passwordError}
+                </div>
+            </#if>
         </div>
         <#if isRegisterForm>
             <div class="mb-3 col-4">
+                <label for="retypePassword" class="form-label"> Confirm password </label>
+                <input class="form-control ${(passwordError??)?string('is-invalid', '')}" id="retypePassword"
+                       type="password" name="password2" placeholder="Retype password"/>
+                <#if password2Error??>
+                    <div class="invalid-feedback">
+                        ${password2Error}
+                    </div>
+                </#if>
+            </div>
+            <div class="mb-3 col-4">
                 <label for="loginEmail" class="form-label"> Email </label>
-                <input class="form-control" id="loginEmail" type="email" name="email"
-                       placeholder="example@example.com"/>
+                <input class="form-control ${(emailError??)?string('is-invalid', '')}"
+                       id="loginEmail" type="email" name="email"
+                       placeholder="example@example.com"
+                       value="<#if user??>${user.email}</#if>"/>
+                <#if emailError??>
+                    <div class="invalid-feedback">
+                        ${emailError}
+                    </div>
+                </#if>
             </div>
         </#if>
         <input type="hidden" name="_csrf" value="${_csrf.token}">

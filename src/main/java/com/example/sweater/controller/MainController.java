@@ -8,11 +8,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
@@ -38,7 +40,7 @@ public class MainController {
         return "greeting";
     }
 
-//    Главная страница со всеми сообщениями
+    //    Главная страница со всеми сообщениями
     @GetMapping("/main")
     public String main(@RequestParam(required = false, defaultValue = "") String filter, Model model) {
         Iterable<Message> messages = messageRepo.findAll();
@@ -56,39 +58,48 @@ public class MainController {
         return "main";
     }
 
-//    Добавление новых сообщений
+    //    BindingResult - нужен для валидации, всегда ставится перед model
+    //    Добавление новых сообщений
     @PostMapping("/main")
     public String add(
             @AuthenticationPrincipal User user,
-            @RequestParam String text,
-            @RequestParam String tag,
-            Map<String, Object> model,
+            @Valid Message message,
+            BindingResult bindingResult,
+            Model model,
             @RequestParam("file") MultipartFile file) throws IOException {
 //        Создает объект класса Message и сохраняет его через метод save
-        Message message = new Message(text, tag, user);
+        message.setAuthor(user);
 
-        if (file != null) {
-            File uploadDir = new File(uploadPath);
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
+            model.mergeAttributes(errorsMap);
+            model.addAttribute("message", message);
+        } else {
+            if (file != null) {
+                File uploadDir = new File(uploadPath);
 
-            if (!uploadDir.exists() && !file.getOriginalFilename().isEmpty()) {
-                uploadDir.mkdir();
+                if (!uploadDir.exists() && !file.getOriginalFilename().isEmpty()) {
+                    uploadDir.mkdir();
+                }
+
+                String uuidFile = UUID.randomUUID().toString();
+                String resultFilename = uuidFile + "." + file.getOriginalFilename();
+
+                file.transferTo(new File(uploadPath + "/" + resultFilename));
+
+                message.setFilename(resultFilename);
             }
 
-            String uuidFile = UUID.randomUUID().toString();
-            String resultFilename = uuidFile + "." + file.getOriginalFilename();
+            model.addAttribute("message", null);
 
-            file.transferTo(new File(uploadPath + "/" +resultFilename));
-
-            message.setFilename(resultFilename);
+            messageRepo.save(message);
         }
-
-        messageRepo.save(message);
-
 //        И сразу, без перезагрузок выводит сообщения
         Iterable<Message> messages = messageRepo.findAll();
-        model.put("messages", messages);
+        model.addAttribute("messages", messages);
 
         return "main";
     }
+
 
 }
