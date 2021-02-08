@@ -31,6 +31,7 @@ public class RegistrationController {
     }
 
 //    Регистрация нового пользователся
+//    BindingResult bindingResult всегда ставится спереди модели (Model model)
     @PostMapping("/registration")
     public String addUser(@Valid User user, BindingResult bindingResult, Model model) {
         if (user.getPassword() != null && !user.getPassword().equals(user.getPassword2())) {

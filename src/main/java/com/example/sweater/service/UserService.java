@@ -135,7 +135,7 @@ public class UserService implements UserDetailsService {
             }
         }
 
-//        Если пароль не пуст, то обновляем его
+//        Если пароль не пуст, то обновляем его и сразу шифруем
         if (!StringUtils.isEmpty(password)) {
             user.setPassword(passwordEncoder.encode(password));
         }
