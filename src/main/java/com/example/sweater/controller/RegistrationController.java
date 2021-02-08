@@ -73,8 +73,10 @@ public class RegistrationController {
 //        Проверяет код активации пользователя, если есть код, то выводит соответствующее сообщение
 //        Если же нету кода (не пришел или уже был активирован), то выводит соответствующее сообщение
         if (isActivated) {
+            model.addAttribute("messageType", "success");
             model.addAttribute("message", "User successfully activated");
         } else {
+            model.addAttribute("messageType", "danger");
             model.addAttribute("message", "Activation code is not found");
         }
 
