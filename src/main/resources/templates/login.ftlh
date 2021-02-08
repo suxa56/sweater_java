@@ -3,12 +3,12 @@
 
 <@c.page>
     <#if Session?? && Session.SPRING_SECURITY_LAST_EXCEPTION??>
-        <div class="alert danger-alert">
+        <div class="alert alert-danger">
             ${Session.SPRING_SECURITY_LAST_EXCEPTION.message}
         </div>
     </#if>
-    <#if message>
-        <div class="alert danger-${messageType}">
+    <#if message??>
+        <div class="alert alert-${messageType}">
             ${message}
         </div>
     </#if>
