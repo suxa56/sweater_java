@@ -37,10 +37,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //    }
 
 //    Метод шифрования паролей
-    @Bean
-    public PasswordEncoder getPasswordEncoder () {
-        return new BCryptPasswordEncoder(8);
-    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -56,6 +52,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .formLogin()
                     .loginPage("/login")
                     .permitAll()
+                .and()
+                    .rememberMe()
                 .and()
 //                Логаут доступен для всех
                     .logout()
