@@ -25,7 +25,6 @@ public class RegistrationController {
     private final static String CAPTCHA_URL = "https://www.google.com/recaptcha/api/siteverify?secret=%s&response=%s";
 
     private final UserService userService;
-
     private final RestTemplate restTemplate;
 
     public RegistrationController(UserService userService, RestTemplate restTemplate) {
@@ -43,12 +42,15 @@ public class RegistrationController {
     }
 
     //    Регистрация нового пользователся
-//    BindingResult bindingResult всегда ставится спереди модели (Model model)
+    //    BindingResult bindingResult всегда ставится спереди модели (Model model)
     @PostMapping("/registration")
     public String addUser(
             @RequestParam("password2") String passwordConfirm,
             @RequestParam("g-recaptcha-response") String captchaResponce,
-            @Valid User user, BindingResult bindingResult, Model model) {
+            @Valid User user,
+            BindingResult bindingResult,
+            Model model
+    ) {
         String url = String.format(CAPTCHA_URL, secret, captchaResponce);
         CaptchaResponseDto responce = restTemplate.postForObject(url, Collections.emptyList(), CaptchaResponseDto.class);
 

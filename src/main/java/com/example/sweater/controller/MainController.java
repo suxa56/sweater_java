@@ -31,13 +31,16 @@ public class MainController {
     private String uploadPath;
 
     @GetMapping("/")
-    public String greeting(Map<String, Object> model) {
+    public String greeting(Model model) {
         return "greeting";
     }
 
     //    Главная страница со всеми сообщениями
     @GetMapping("/main")
-    public String main(@RequestParam(required = false, defaultValue = "") String filter, Model model) {
+    public String main(
+            @RequestParam(required = false, defaultValue = "") String filter,
+            Model model
+    ) {
         Iterable<Message> messages = messageRepo.findAll();
 
 //        Если фильтр не пустой, то возвращается результат
@@ -61,7 +64,8 @@ public class MainController {
             @Valid Message message,
             BindingResult bindingResult,
             Model model,
-            @RequestParam("file") MultipartFile file) throws IOException {
+            @RequestParam("file") MultipartFile file
+    ) throws IOException {
 //        Создает объект класса Message и сохраняет его через метод save
         message.setAuthor(user);
 
